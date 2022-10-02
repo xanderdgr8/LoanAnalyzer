@@ -138,7 +138,7 @@ def present_value (future_value, remaining_months, annual_discount_rate=0.2):
 present_value_call = present_value(new_loan["future_value"], new_loan["remaining_months"])
 
 #Print out the present value of the loan.
-print(f"The present value of the loan is: {p: .2f}")
+print(f"The present value of the loan is: {present_value_call: .2f}")
 
 
 """Part 4: Conditionally filter lists of loans.
