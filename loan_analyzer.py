@@ -1,4 +1,3 @@
-# coding: utf-8
 import csv
 from pathlib import Path
 
@@ -18,20 +17,23 @@ loan_costs = [500, 600, 200, 1000, 450]
 # @TODO: Use the `len` function to calculate the total number of loans in the list.
 # Print the number of loans from the list
 # YOUR CODE HERE!
+#Print out the total number of loans.
 total_loans = len(loan_costs)
-print(total_loans)
+print(f"The total number of loans is {total_loans}.")
 # What is the total of all loans?
 # @TODO: Use the `sum` function to calculate the total of all loans in the list.
 # Print the total value of the loans
 # YOUR CODE HERE!
+#Calculate and print the total value(sum) of all the loans in the list.
 total_loan_amount = sum(loan_costs)
-print(total_loan_amount)
+print(f"The total loan amount is {total_loan_amount}.")
 # What is the average loan amount from the list?
 # @TODO: Using the sum of all loans and the total number of loans, calculate the average loan price.
 # Print the average loan amount
 # YOUR CODE HERE!
+#Calculate and print out the average loan amount.  
 average_loan_amount = total_loan_amount / total_loans
-print(average_loan_amount)
+print(f"The average loan amount is {average_loan_amount}.")
 
 """Part 2: Analyze Loan Data.
 
@@ -67,10 +69,11 @@ loan = {
 # @TODO: Use get() on the dictionary of additional information to extract the Future Value and Remaining Months on the loan.
 # Print each variable.
 # YOUR CODE HERE!
+#Use Get to extract future value and remaining months.
 future_value = loan.get('future_value')
-print(future_value)
+print(f"The future value is {future_value}.")
 remaining_months = loan.get('remaining_months')
-print(remaining_months)
+print(f"The remaining months is {remaining_months}.")
 
 
 # @TODO: Use the formula for Present Value to calculate a "fair value" of the loan.
@@ -79,6 +82,7 @@ print(remaining_months)
 #   HINT: Present Value = Future Value / (1 + Discount_Rate/12) ** remaining_months
 
 # YOUR CODE HERE!
+#Calculate the fair value of the loan using the present value formula and a 20% discount rate.
 discount_rate = .20
 present_value = future_value / (1 + discount_rate / 12) ** remaining_months
 
@@ -87,6 +91,8 @@ present_value = future_value / (1 + discount_rate / 12) ** remaining_months
 #    If the present value of the loan is greater than or equal to the cost, then print a message that says the loan is worth at least the cost to buy it.
 #    Else, the present value of the loan is less than the loan cost, then print a message that says that the loan is too expensive and not worth the price.
 # YOUR CODE HERE!
+#Use a conditional statement to determine and print the loan's fair value.
+#Analyze the loan value to determine purchasability of the loan.
 if present_value >= loan.get('loan_price'):
      print("The loan is worth at least the cost to buy it.")
 else:
@@ -117,17 +123,22 @@ new_loan = {
 #    This function should include parameters for `future_value`, `remaining_months`, and the `annual_discount_rate`
 #    The function should return the `present_value` for the loan.
 # YOUR CODE HERE!
+#Create a function name, present_value with parameters 'future_value', 'remaining_months' and 'annual_discount_rate'.
 def present_value (future_value, remaining_months, annual_discount_rate=0.2):
     
     
 # @TODO: Use the function to calculate the present value of the new loan given below.
 #    Use an `annual_discount_rate` of 0.2 for this new loan calculation.
 # YOUR CODE HERE!
-    pv = future_value / (1 + annual_discount_rate / 12) ** remaining_months
-    return pv
-present_value(new_loan["future_value"], new_loan["remaining_months"])
+#Function to calculate present value formula with a 20% annual discount rate. 
+    calculate_present_value = future_value / (1 + annual_discount_rate / 12) ** remaining_months
+    return calculate_present_value
 
-print(f"The present value of the loan is: {present_value}")
+#Create a variable, 'present_value_call' to pass the arguments, 'present_value' and 'new_loan to the function.
+present_value_call = present_value(new_loan["future_value"], new_loan["remaining_months"])
+
+#Print out the present value of the loan.
+print(f"The present value of the loan is: {p: .2f}")
 
 
 """Part 4: Conditionally filter lists of loans.
@@ -170,15 +181,19 @@ loans = [
 
 # @TODO: Create an empty list called `inexpensive_loans`
 # YOUR CODE HERE!
-#inexpensive_loans = []
+#Create an empty list to append loan costs of $500 or less in inexpensive_loans.
+inexpensive_loans = []
 # @TODO: Loop through all the loans and append any that cost $500 or less to the `inexpensive_loans` list
 # YOUR CODE HERE!
-#for loan in loans:
-#    if loan_price < 500
-#        inexpensive_loans_list.append
+#Append the `inexpensive_loans` list with 'loan_price' that are less than or equal to $500.
+for loan in loans:
+
+    if loan["loan_price"] <= 500:
+        inexpensive_loans.append(loan)
 # @TODO: Print the `inexpensive_loans` list
 # YOUR CODE HERE!
-
+#Print Loans dictionary 'loan_price' key:value pairs from 'inexpesive_loans' of $500 and less.
+print(f"Loans of $500 and less: {inexpensive_loans}.")
 
 """Part 5: Save the results.
 
@@ -197,9 +212,30 @@ Output this list of inexpensive loans to a csv file
 # Set the output header
 header = ["loan_price", "remaining_months", "repayment_interval", "future_value"]
 
+
 # Set the output file path
 output_path = Path("inexpensive_loans.csv")
 
 # @TODO: Use the csv library and `csv.writer` to write the header row
 # and each row of `loan.values()` from the `inexpensive_loans` list.
 # YOUR CODE HERE!
+#Open a new CSV file.
+csvpath = Path("inexpensive_loans.csv")
+
+#Status message that data is being written from 'loan.values()' to inexpensive_loans' csv file.
+print("Writing the data to the csv file...")
+
+#Create 'csvwriter' using the CSV library.
+with open(csvpath, 'w') as csvfile:
+     csvwriter = csv.writer(csvfile, delimiter=",")
+
+#Use 'csvwriter' to write the header variable in the first row.
+     csvwriter.writerow(header)
+
+#Use a for loop to iterate through each loan in 'inexpensive_loans'.
+     for row in inexpensive_loans:
+
+#Use 'csvwriter' to writhe the 'loan.values()' to a row in the CSV file. 
+        csvwriter.writerow(row.values())
+
+
